@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>Recognize Exclusion — Windows 11 Agent</title>
+<style>
+:root {
+  --fg: #e6edf3;
+  --fg-muted: #c9d1d9;
+  --canvas: #0d1117;
+  --canvas-subtle: #161b22;
+  --border: #30363d;
+  --accent: #79c0ff;
+  --accent-hover: #a5d6ff;
+  --btn-bg: #21262d;
+  --btn-hover: #30363d;
+  --radius: 6px;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+html {
+  scrollbar-gutter: stable;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 48px 16px 96px;
+  color: var(--fg);
+  font-family: var(--font);
+  font-size: 1rem;
+  line-height: 1.6;
+  background-color: var(--canvas);
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+main {
+  max-width: 1012px;
+  margin: 0 auto;
+  padding: 0 2em 2em;
+  background: var(--canvas);
+  border-radius: var(--radius);
+}
+
+h1, h2, h3 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--fg);
+}
+h1 {
+  font-size: 2rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.4em;
+  margin-top: 0;
+}
+h2 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.3em;
+}
+h3 { font-size: 1.125rem; margin: 0.75em 0 0; }
+
+p { margin: 0.75em 0; }
+ul, ol { padding-left: 1.5em; margin: 0.5em 0; }
+li { margin: 0.35em 0; }
+
+a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+a:hover { color: var(--accent-hover); }
+
+.lead {
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+code {
+  padding: 0.2em 0.4em;
+  font-size: 85%;
+  background: var(--canvas-subtle);
+  border-radius: var(--radius);
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background: var(--canvas-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+pre code {
+  padding: 0;
+  background: none;
+  font-size: inherit;
+}
+
+/* Workflow steps */
+.steps {
+  list-style: none;
+  padding-left: 0;
+  counter-reset: step;
+}
+.steps li {
+  counter-increment: step;
+  margin: 0.75em 0;
+  padding-left: 2.5em;
+  position: relative;
+}
+.steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  width: 1.75em;
+  height: 1.75em;
+  background: var(--btn-bg);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  text-align: center;
+  line-height: 1.75em;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* Format card */
+.format-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25em;
+  background: var(--canvas-subtle);
+  margin: 1em 0;
+}
+.format-card p {
+  margin: 0.25em 0;
+}
+
+/* Tree structure */
+.tree {
+  padding: 16px;
+  background: var(--canvas-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 85%;
+  line-height: 1.6;
+  white-space: pre;
+}
+
+footer {
+  max-width: 1012px;
+  margin: 2em auto 0;
+  padding-top: 1em;
+  border-top: 1px solid var(--border);
+  color: var(--fg-muted);
+  font-size: 0.875rem;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<main id="main-content">
+
+<h1>Recognize Exclusion — Windows 11 Agent</h1>
+
+<p class="lead">A <a href="https://docs.github.com/copilot/concepts/agents/about-copilot-cli">GitHub Copilot CLI</a> agent that applies Microsoft Inclusive Design's <strong>"Recognize Exclusion"</strong> principle to Windows 11 features. Given a Windows feature description, it produces at least 28 structured exclusions across disability categories and assistive technology mismatches.</p>
+
+<h2>What It Does</h2>
+
+<p>This agent guides you through a 3-step conversation:</p>
+
+<ol class="steps">
+  <li><strong>Describe</strong> — You describe a Windows 11 feature you want to analyze</li>
+  <li><strong>Clarify</strong> — The agent asks up to 3 clarifying questions</li>
+  <li><strong>Generate</strong> — The agent produces 28+ exclusions covering vision, hearing, motor, cognition, and assistive technology mismatches</li>
+</ol>
+
+<p>Each exclusion follows a structured format:</p>
+
+<div class="format-card">
+  <p><strong>Pattern:</strong> [The UI pattern or interaction being analyzed]</p>
+  <p><strong>User action:</strong> [What the user is trying to do]</p>
+  <p><strong>Exclusion type:</strong> [Perceivable | Operable | Understandable | Robust]</p>
+  <p><strong>Explanation:</strong> [The specific disability or assistive technology mismatch]</p>
+</div>
+
+<h2>Prerequisites</h2>
+
+<ul>
+  <li><a href="https://docs.github.com/copilot/concepts/agents/about-copilot-cli">GitHub Copilot CLI</a> installed</li>
+  <li>An active <a href="https://github.com/features/copilot/plans">Copilot subscription</a></li>
+  <li>Access to Claude Opus 4.6 model (recommended)</li>
+</ul>
+
+<h2>Quick Start</h2>
+
+<pre><code><span style="color: var(--fg-muted)"># Clone the repo</span>
+git clone https://github.com/YourOrg/recognize-exclusion-windows-agent.git
+cd recognize-exclusion-windows-agent
+
+<span style="color: var(--fg-muted)"># Launch Copilot CLI</span>
+copilot
+
+<span style="color: var(--fg-muted)"># Select the model (recommended: Opus 4.6)</span>
+/model
+<span style="color: var(--fg-muted)"># Choose claude-opus-4.6</span>
+
+<span style="color: var(--fg-muted)"># Start a conversation</span>
+<span style="color: var(--fg-muted)"># Example: "I want to analyze the Windows 11 Snap Layouts feature"</span></code></pre>
+
+<p>The agent automatically loads its instructions from <code>CLAUDE.md</code> and <code>.github/copilot-instructions.md</code>.</p>
+
+<h2>Repository Structure</h2>
+
+<div class="tree" role="img" aria-label="Repository file structure">├── CLAUDE.md                           <span style="color: var(--fg-muted)"># Agent identity and core instructions</span>
+├── README.md                           <span style="color: var(--fg-muted)"># This file</span>
+├── .github/
+│   └── copilot-instructions.md         <span style="color: var(--fg-muted)"># Copilot CLI-specific configuration</span>
+└── reference/
+    ├── windows-exclusions.md           <span style="color: var(--fg-muted)"># 144 Windows 11 UI pattern exclusions</span>
+    └── icf-exclusions-windows.md       <span style="color: var(--fg-muted)"># 153 ICF functional classification exclusions</span></div>
+
+<h2>Reference Data</h2>
+
+<p>The <code>reference/</code> directory contains the agent's knowledge base, converted from the Inclusive Tech Lab's HTML reference material:</p>
+
+<ul>
+  <li><strong>windows-exclusions.md</strong> — Exclusion patterns organized by Windows 11 UI feature (Taskbar, File Explorer, Settings, Snap Layouts, Start Menu, etc.)</li>
+  <li><strong>icf-exclusions-windows.md</strong> — Exclusion patterns organized by ICF (International Classification of Functioning) body function and activity/participation categories</li>
+</ul>
+
+<h2>Contributing</h2>
+
+<ol>
+  <li>Edit the relevant file in <code>reference/</code></li>
+  <li>Follow the existing Markdown structure (<code>##</code> heading for pattern, <code>###</code> for exclusion type, bullet list for items)</li>
+  <li>Submit a pull request</li>
+</ol>
+
+<h2>Background</h2>
+
+<p>This agent is part of the <a href="https://www.microsoft.com/inclusive-tech-lab">Inclusive Tech Lab</a>'s inclusive design toolkit. It operationalizes the "Recognize Exclusion" principle from <a href="https://inclusive.microsoft.design/">Microsoft Inclusive Design</a> for Windows product teams.</p>
+
+</main>
+
+<footer>
+  <p>Inclusive Tech Lab · Microsoft Inclusive Design</p>
+</footer>
+
+</body>
+</html>
