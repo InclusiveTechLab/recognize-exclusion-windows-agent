@@ -212,21 +212,69 @@ footer {
 
 <h2>Quick Start</h2>
 
-<pre><code><span style="color: var(--fg-muted)"># Clone the repo</span>
-git clone https://github.com/YourOrg/recognize-exclusion-windows-agent.git
-cd recognize-exclusion-windows-agent
+<h3>1. Install GitHub Copilot CLI</h3>
 
-<span style="color: var(--fg-muted)"># Launch Copilot CLI</span>
-copilot
+<p>If you haven't installed it yet, pick the method for your platform:</p>
 
-<span style="color: var(--fg-muted)"># Select the model (recommended: Opus 4.6)</span>
-/model
-<span style="color: var(--fg-muted)"># Choose claude-opus-4.6</span>
+<p><strong>Windows (WinGet):</strong></p>
+<pre><code>winget install GitHub.Copilot</code></pre>
 
-<span style="color: var(--fg-muted)"># Start a conversation</span>
-<span style="color: var(--fg-muted)"># Example: "I want to analyze the Windows 11 Snap Layouts feature"</span></code></pre>
+<p><strong>macOS / Linux (Homebrew):</strong></p>
+<pre><code>brew install copilot-cli</code></pre>
 
-<p>The agent automatically loads its instructions from <code>CLAUDE.md</code> and <code>.github/copilot-instructions.md</code>.</p>
+<p><strong>Any platform (npm):</strong></p>
+<pre><code>npm install -g @github/copilot</code></pre>
+
+<blockquote style="border-left: 3px solid var(--accent); padding-left: 1em; margin: 1em 0; color: var(--fg-muted);">
+  <strong>Requirement:</strong> You need an active <a href="https://github.com/features/copilot/plans">GitHub Copilot subscription</a>. If your organization provides Copilot, check with your admin that CLI access is enabled.
+</blockquote>
+
+<h3>2. Clone this repo and open a terminal in it</h3>
+
+<pre><code>git clone https://github.com/YourOrg/recognize-exclusion-windows-agent.git
+cd recognize-exclusion-windows-agent</code></pre>
+
+<h3>3. Launch the CLI</h3>
+
+<pre><code>copilot</code></pre>
+
+<p>On first launch you'll see an animated banner. If you're not already logged in to GitHub, the CLI will prompt you to run <code>/login</code> — follow the on-screen instructions to authenticate with your GitHub account.</p>
+
+<h3>4. Select the model</h3>
+
+<p>Once you're inside the CLI, type:</p>
+
+<pre><code>/model</code></pre>
+
+<p>Use the arrow keys to select <strong>claude-opus-4.6</strong> and press Enter. This is the recommended model for this agent. If Opus 4.6 isn't available to you, any Claude model will work.</p>
+
+<h3>5. Start a conversation</h3>
+
+<p>Just type a message describing the Windows 11 feature you want to analyze. For example:</p>
+
+<pre><code>I want to analyze the Windows 11 Snap Layouts feature</code></pre>
+
+<p>The agent will walk you through its 3-step workflow:</p>
+
+<ol class="steps">
+  <li><strong>Describe</strong> — It will ask you to describe the feature in more detail</li>
+  <li><strong>Clarify</strong> — It will ask up to 3 clarifying questions</li>
+  <li><strong>Generate</strong> — It will produce 28+ structured exclusions</li>
+</ol>
+
+<h3>How it works</h3>
+
+<p>When you launch <code>copilot</code> inside this repo, it automatically reads the instruction files (<code>CLAUDE.md</code> and <code>.github/copilot-instructions.md</code>) and the reference data in <code>reference/</code>. You don't need to configure anything — the agent knows what to do.</p>
+
+<h3>Tips</h3>
+
+<ul>
+  <li><strong>Stay in the repo directory</strong> — the CLI loads instructions from the current working directory.</li>
+  <li><strong>Use <code>/model</code></strong> at any time to switch models.</li>
+  <li><strong>Say "start over"</strong> to reset and analyze a different feature.</li>
+  <li><strong>Use <code>/help</code></strong> to see all available commands.</li>
+  <li><strong>Use <code>/diff</code></strong> if the agent makes any file changes you want to review.</li>
+</ul>
 
 <h2>Repository Structure</h2>
 

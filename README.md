@@ -24,23 +24,76 @@ Each exclusion follows a structured format:
 
 ## Quick Start
 
+### 1. Install GitHub Copilot CLI
+
+If you haven't installed it yet, pick the method for your platform:
+
+**Windows (WinGet):**
 ```bash
-# Clone the repo
-git clone https://github.com/YourOrg/recognize-exclusion-windows-agent.git
-cd recognize-exclusion-windows-agent
-
-# Launch Copilot CLI
-copilot
-
-# Select the model (recommended: Opus 4.6)
-/model
-# Choose claude-opus-4.6
-
-# Start a conversation
-# Example: "I want to analyze the Windows 11 Snap Layouts feature"
+winget install GitHub.Copilot
 ```
 
-The agent automatically loads its instructions from `CLAUDE.md` and `.github/copilot-instructions.md`.
+**macOS / Linux (Homebrew):**
+```bash
+brew install copilot-cli
+```
+
+**Any platform (npm):**
+```bash
+npm install -g @github/copilot
+```
+
+> **Requirement:** You need an active [GitHub Copilot subscription](https://github.com/features/copilot/plans). If your organization provides Copilot, check with your admin that CLI access is enabled.
+
+### 2. Clone this repo and open a terminal in it
+
+```bash
+git clone https://github.com/YourOrg/recognize-exclusion-windows-agent.git
+cd recognize-exclusion-windows-agent
+```
+
+### 3. Launch the CLI
+
+```bash
+copilot
+```
+
+On first launch you'll see an animated banner. If you're not already logged in to GitHub, the CLI will prompt you to run `/login` — follow the on-screen instructions to authenticate with your GitHub account.
+
+### 4. Select the model
+
+Once you're inside the CLI, type:
+
+```
+/model
+```
+
+Use the arrow keys to select **claude-opus-4.6** and press Enter. This is the recommended model for this agent. If Opus 4.6 isn't available to you, any Claude model will work.
+
+### 5. Start a conversation
+
+Just type a message describing the Windows 11 feature you want to analyze. For example:
+
+```
+I want to analyze the Windows 11 Snap Layouts feature
+```
+
+The agent will walk you through its 3-step workflow:
+1. It will ask you to describe the feature in more detail
+2. It will ask up to 3 clarifying questions
+3. It will produce 28+ structured exclusions
+
+### How it works
+
+When you launch `copilot` inside this repo, it automatically reads the instruction files (`CLAUDE.md` and `.github/copilot-instructions.md`) and the reference data in `reference/`. You don't need to configure anything — the agent knows what to do.
+
+### Tips
+
+- **Stay in the repo directory** — the CLI loads instructions from the current working directory.
+- **Use `/model`** at any time to switch models.
+- **Say "start over"** to reset and analyze a different feature.
+- **Use `/help`** to see all available commands.
+- **Use `/diff`** if the agent makes any file changes you want to review.
 
 ## Repository Structure
 
