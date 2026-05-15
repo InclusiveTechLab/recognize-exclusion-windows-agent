@@ -152,6 +152,19 @@ pre code {
   margin: 0.25em 0;
 }
 
+/* Tip boxes */
+.tip {
+  border-left: 3px solid var(--accent);
+  padding: 0.75em 1em;
+  margin: 1em 0;
+  background: var(--canvas-subtle);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  color: var(--fg-muted);
+}
+.tip strong {
+  color: var(--accent);
+}
+
 /* Tree structure */
 .tree {
   padding: 16px;
@@ -162,6 +175,22 @@ pre code {
   font-size: 85%;
   line-height: 1.6;
   white-space: pre;
+}
+
+/* Troubleshooting table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0;
+}
+th, td {
+  text-align: left;
+  padding: 0.6em 1em;
+  border: 1px solid var(--border);
+}
+th {
+  background: var(--canvas-subtle);
+  font-weight: 600;
 }
 
 footer {
@@ -181,131 +210,197 @@ footer {
 
 <h1>Recognize Exclusion — Windows 11 Agent</h1>
 
-<p class="lead">A <a href="https://docs.github.com/copilot/concepts/agents/about-copilot-cli">GitHub Copilot CLI</a> agent that applies Microsoft Inclusive Design's <strong>"Recognize Exclusion"</strong> principle to Windows 11 features. Given a Windows feature description, it produces at least 28 structured exclusions across disability categories and assistive technology mismatches.</p>
+<p class="lead">An AI-powered tool that helps you find accessibility gaps in Windows 11 features. You describe a feature, and it identifies 28+ ways that feature might exclude people with disabilities.</p>
 
-<h2>What It Does</h2>
+<h2>What Is This?</h2>
 
-<p>This agent guides you through a 3-step conversation:</p>
+<p>This is a <strong>custom agent</strong> for <a href="https://docs.github.com/copilot/concepts/agents/about-copilot-cli">GitHub Copilot CLI</a> — a terminal-based AI assistant made by GitHub. When you run this agent, it becomes a specialist in inclusive design, helping you think through how a Windows 11 feature might unintentionally exclude people who use assistive technologies, have limited motor control, are blind or deaf, or experience cognitive differences.</p>
+
+<h3>What it does in practice</h3>
+
+<p>You have a conversation with the agent. It works in 3 steps:</p>
 
 <ol class="steps">
-  <li><strong>Describe</strong> — You describe a Windows 11 feature you want to analyze</li>
-  <li><strong>Clarify</strong> — The agent asks up to 3 clarifying questions</li>
-  <li><strong>Generate</strong> — The agent produces 28+ exclusions covering vision, hearing, motor, cognition, and assistive technology mismatches</li>
+  <li><strong>You describe a feature</strong> — for example, "the Windows 11 Snap Layouts feature"</li>
+  <li><strong>It asks clarifying questions</strong> — up to 3 questions to understand the feature better</li>
+  <li><strong>It produces a structured report</strong> — at least 28 specific exclusions, each explaining who is excluded, what they're trying to do, and why the feature fails them</li>
 </ol>
 
-<p>Each exclusion follows a structured format:</p>
+<p>Each exclusion looks like this:</p>
 
 <div class="format-card">
-  <p><strong>Pattern:</strong> [The UI pattern or interaction being analyzed]</p>
-  <p><strong>User action:</strong> [What the user is trying to do]</p>
-  <p><strong>Exclusion type:</strong> [Perceivable | Operable | Understandable | Robust]</p>
-  <p><strong>Explanation:</strong> [The specific disability or assistive technology mismatch]</p>
+  <p><strong>Pattern:</strong> Hover-triggered layout grid</p>
+  <p><strong>User action:</strong> Trying to choose a window layout</p>
+  <p><strong>Exclusion type:</strong> Operable</p>
+  <p><strong>Explanation:</strong> Someone using eye-gaze input cannot reliably hover over a small target long enough to trigger the layout options, because the hover zone is too small and the dwell time too short.</p>
 </div>
 
-<h2>Prerequisites</h2>
+<h2>What You Need Before Starting</h2>
 
-<ul>
-  <li><a href="https://docs.github.com/copilot/concepts/agents/about-copilot-cli">GitHub Copilot CLI</a> installed</li>
-  <li>An active <a href="https://github.com/features/copilot/plans">Copilot subscription</a></li>
-  <li>Access to Claude Opus 4.6 model (recommended)</li>
-</ul>
+<p>Before you can use this agent, you need three things:</p>
 
-<h2>Quick Start</h2>
+<h3>1. A GitHub account with Copilot access</h3>
 
-<h3>1. Install GitHub Copilot CLI</h3>
+<p>You need a <a href="https://github.com/features/copilot/plans">GitHub Copilot subscription</a>. If your organization provides Copilot, ask your admin to confirm that <strong>CLI access</strong> is turned on for your account.</p>
 
-<p>If you haven't installed it yet, pick the method for your platform:</p>
+<h3>2. GitHub Copilot CLI installed on your computer</h3>
 
-<p><strong>Windows (WinGet):</strong></p>
+<p>This is a program you install once. Here's how:</p>
+
+<p><strong>On Windows</strong> — Open PowerShell or Terminal and run:</p>
 <pre><code>winget install GitHub.Copilot</code></pre>
 
-<p><strong>macOS / Linux (Homebrew):</strong></p>
+<p><strong>On macOS or Linux</strong> — Open Terminal and run:</p>
 <pre><code>brew install copilot-cli</code></pre>
 
-<p><strong>Any platform (npm):</strong></p>
+<p><strong>If neither works</strong> — You can also install it with npm (requires Node.js):</p>
 <pre><code>npm install -g @github/copilot</code></pre>
 
-<blockquote style="border-left: 3px solid var(--accent); padding-left: 1em; margin: 1em 0; color: var(--fg-muted);">
-  <strong>Requirement:</strong> You need an active <a href="https://github.com/features/copilot/plans">GitHub Copilot subscription</a>. If your organization provides Copilot, check with your admin that CLI access is enabled.
-</blockquote>
+<div class="tip">
+  <strong>💡 Not sure if it worked?</strong> After installing, type <code>copilot --version</code> in your terminal. If you see a version number, you're good.
+</div>
 
-<h3>2. Clone this repo and open a terminal in it</h3>
+<h3>3. Git installed on your computer</h3>
 
-<pre><code>git clone https://github.com/YourOrg/recognize-exclusion-windows-agent.git
+<p>You need Git to download this agent. Most computers have it already. To check, type <code>git --version</code> in your terminal. If you see a version number, you have it. If not:</p>
+
+<ul>
+  <li><strong>Windows:</strong> Download from <a href="https://git-scm.com/download/win">git-scm.com</a> or run <code>winget install Git.Git</code></li>
+  <li><strong>macOS:</strong> It's included with Xcode Command Line Tools. Run <code>xcode-select --install</code></li>
+  <li><strong>Linux:</strong> Run <code>sudo apt install git</code> (Ubuntu/Debian) or <code>sudo dnf install git</code> (Fedora)</li>
+</ul>
+
+<h2>How to Set Up the Agent (One-Time Steps)</h2>
+
+<p>You only need to do these steps once.</p>
+
+<h3>Step 1: Download the agent to your computer</h3>
+
+<p>Open a terminal and run these two commands:</p>
+
+<pre><code>git clone https://github.com/InclusiveTechLab/recognize-exclusion-windows-agent.git
 cd recognize-exclusion-windows-agent</code></pre>
 
-<h3>3. Launch the CLI</h3>
+<p>The first command downloads the agent files. The second command moves you into the agent's folder.</p>
+
+<div class="tip">
+  <strong>💡 Where does it go?</strong> It creates a folder called <code>recognize-exclusion-windows-agent</code> wherever your terminal is currently pointing (usually your home directory or Documents).
+</div>
+
+<h3>Step 2: Log in to GitHub (first time only)</h3>
+
+<p>Launch the CLI and log in:</p>
 
 <pre><code>copilot</code></pre>
 
-<p>On first launch you'll see an animated banner. If you're not already logged in to GitHub, the CLI will prompt you to run <code>/login</code> — follow the on-screen instructions to authenticate with your GitHub account.</p>
+<p>If this is your first time, it will ask you to run <code>/login</code>. Type that command and follow the on-screen instructions — it will open a browser window where you authenticate with your GitHub account.</p>
 
-<h3>4. Select the model</h3>
+<h2>How to Use the Agent (Every Time)</h2>
 
-<p>Once you're inside the CLI, type:</p>
+<h3>Step 1: Open a terminal in the agent folder</h3>
+
+<p>Navigate to where you downloaded the agent:</p>
+
+<pre><code>cd recognize-exclusion-windows-agent</code></pre>
+
+<div class="tip">
+  <strong>💡 Why do I need to be in this folder?</strong> The agent's instructions and knowledge base are stored here. Copilot CLI reads them automatically when you're in this folder.
+</div>
+
+<h3>Step 2: Start the CLI</h3>
+
+<pre><code>copilot</code></pre>
+
+<h3>Step 3: Select the agent</h3>
+
+<p>Type this command inside the CLI:</p>
+
+<pre><code>/agent</code></pre>
+
+<p>Use your arrow keys to highlight <strong>recognize-exclusion</strong> and press Enter.</p>
+
+<div class="tip">
+  <strong>💡 Shortcut:</strong> You can skip steps 2-3 by running <code>copilot --agent=recognize-exclusion</code> directly from your terminal.
+</div>
+
+<h3>Step 4: Select the best model (recommended)</h3>
+
+<p>Type this command inside the CLI:</p>
 
 <pre><code>/model</code></pre>
 
-<p>Use the arrow keys to select <strong>claude-opus-4.6</strong> and press Enter. This is the recommended model for this agent. If Opus 4.6 isn't available to you, any Claude model will work.</p>
+<p>Use your arrow keys to select <strong>claude-opus-4.6</strong> and press Enter. This model produces the best results for this agent. If it's not available, any Claude model will work.</p>
 
-<h3>5. Start a conversation</h3>
+<h3>Step 5: Start your analysis</h3>
 
-<p>Just type a message describing the Windows 11 feature you want to analyze. For example:</p>
+<p>Type a message describing the Windows 11 feature you want to analyze:</p>
 
-<pre><code>I want to analyze the Windows 11 Snap Layouts feature</code></pre>
+<pre><code>I want to analyze the Windows 11 Start Menu</code></pre>
 
-<p>The agent will walk you through its 3-step workflow:</p>
+<p>The agent will guide you through the rest — asking questions, then producing the exclusion report.</p>
 
-<ol class="steps">
-  <li><strong>Describe</strong> — It will ask you to describe the feature in more detail</li>
-  <li><strong>Clarify</strong> — It will ask up to 3 clarifying questions</li>
-  <li><strong>Generate</strong> — It will produce 28+ structured exclusions</li>
-</ol>
-
-<h3>How it works</h3>
-
-<p>When you launch <code>copilot</code> inside this repo, it automatically reads the instruction files (<code>CLAUDE.md</code> and <code>.github/copilot-instructions.md</code>) and the reference data in <code>reference/</code>. You don't need to configure anything — the agent knows what to do.</p>
-
-<h3>Tips</h3>
+<h2>Tips</h2>
 
 <ul>
-  <li><strong>Stay in the repo directory</strong> — the CLI loads instructions from the current working directory.</li>
-  <li><strong>Use <code>/model</code></strong> at any time to switch models.</li>
-  <li><strong>Say "start over"</strong> to reset and analyze a different feature.</li>
-  <li><strong>Use <code>/help</code></strong> to see all available commands.</li>
-  <li><strong>Use <code>/diff</code></strong> if the agent makes any file changes you want to review.</li>
+  <li><strong>Say "start over"</strong> at any time to analyze a different feature</li>
+  <li><strong>You must be in the agent's folder</strong> for it to work — if you get generic Copilot responses instead of inclusive design analysis, you're probably in the wrong directory</li>
+  <li><strong>Use <code>/help</code></strong> inside the CLI to see all available commands</li>
+  <li><strong>Copy the output</strong> — the exclusion report is designed to be pasted into documents, tickets, or design reviews</li>
 </ul>
 
-<h2>Repository Structure</h2>
+<h2>How the Agent Is Structured</h2>
 
-<div class="tree" role="img" aria-label="Repository file structure">├── CLAUDE.md                           <span style="color: var(--fg-muted)"># Agent identity and core instructions</span>
-├── README.md                           <span style="color: var(--fg-muted)"># This file</span>
+<p>You don't need to understand this to use the agent, but if you're curious:</p>
+
+<div class="tree" role="img" aria-label="Repository file structure">recognize-exclusion-windows-agent/
+├── CLAUDE.md                              <span style="color: var(--fg-muted)">← The agent's core instructions</span>
+├── README.md                              <span style="color: var(--fg-muted)">← This file (as plain text)</span>
 ├── .github/
-│   └── copilot-instructions.md         <span style="color: var(--fg-muted)"># Copilot CLI-specific configuration</span>
+│   ├── copilot-instructions.md            <span style="color: var(--fg-muted)">← Tells the CLI which model to use</span>
+│   └── agents/
+│       └── recognize-exclusion.agent.md   <span style="color: var(--fg-muted)">← Agent profile (shows up in /agent)</span>
 └── reference/
-    ├── windows-exclusions.md           <span style="color: var(--fg-muted)"># 144 Windows 11 UI pattern exclusions</span>
-    └── icf-exclusions-windows.md       <span style="color: var(--fg-muted)"># 153 ICF functional classification exclusions</span></div>
+    ├── windows-exclusions.md              <span style="color: var(--fg-muted)">← 144 exclusion patterns by Windows feature</span>
+    └── icf-exclusions-windows.md          <span style="color: var(--fg-muted)">← 153 exclusion patterns by disability category</span></div>
 
-<h2>Reference Data</h2>
+<p>The <code>reference/</code> files are the agent's knowledge base — curated exclusion patterns from the Inclusive Tech Lab that it draws on when generating your report.</p>
 
-<p>The <code>reference/</code> directory contains the agent's knowledge base, converted from the Inclusive Tech Lab's HTML reference material:</p>
+<h2>Troubleshooting</h2>
 
-<ul>
-  <li><strong>windows-exclusions.md</strong> — Exclusion patterns organized by Windows 11 UI feature (Taskbar, File Explorer, Settings, Snap Layouts, Start Menu, etc.)</li>
-  <li><strong>icf-exclusions-windows.md</strong> — Exclusion patterns organized by ICF (International Classification of Functioning) body function and activity/participation categories</li>
-</ul>
-
-<h2>Contributing</h2>
-
-<ol>
-  <li>Edit the relevant file in <code>reference/</code></li>
-  <li>Follow the existing Markdown structure (<code>##</code> heading for pattern, <code>###</code> for exclusion type, bullet list for items)</li>
-  <li>Submit a pull request</li>
-</ol>
+<table>
+  <thead>
+    <tr>
+      <th>Problem</th>
+      <th>Solution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>copilot</code> command not found</td>
+      <td>Reinstall Copilot CLI (see installation steps above)</td>
+    </tr>
+    <tr>
+      <td>Agent gives generic responses, not exclusion analysis</td>
+      <td>Make sure you're in the <code>recognize-exclusion-windows-agent</code> folder</td>
+    </tr>
+    <tr>
+      <td><code>/agent</code> doesn't show "recognize-exclusion"</td>
+      <td>Make sure you're in the agent folder, not a parent directory</td>
+    </tr>
+    <tr>
+      <td>"Not logged in" error</td>
+      <td>Run <code>/login</code> inside the CLI and follow the prompts</td>
+    </tr>
+    <tr>
+      <td>Model not available</td>
+      <td>Use <code>/model</code> and pick any available Claude model</td>
+    </tr>
+  </tbody>
+</table>
 
 <h2>Background</h2>
 
-<p>This agent is part of the <a href="https://www.microsoft.com/inclusive-tech-lab">Inclusive Tech Lab</a>'s inclusive design toolkit. It operationalizes the "Recognize Exclusion" principle from <a href="https://inclusive.microsoft.design/">Microsoft Inclusive Design</a> for Windows product teams.</p>
+<p>This agent is part of the <a href="https://www.microsoft.com/inclusive-tech-lab">Inclusive Tech Lab</a>'s inclusive design toolkit. It puts the "Recognize Exclusion" principle from <a href="https://inclusive.microsoft.design/">Microsoft Inclusive Design</a> into practice for Windows product teams.</p>
 
 </main>
 
