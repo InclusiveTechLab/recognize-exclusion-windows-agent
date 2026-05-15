@@ -22,6 +22,16 @@ Each exclusion follows a structured format:
 - An active [Copilot subscription](https://github.com/features/copilot/plans)
 - Access to Claude Opus 4.6 model (recommended)
 
+## Getting Access
+
+This is a private repository. To get access:
+
+1. **Request an invitation** — Ask the repo owner to add you as a collaborator.
+2. **Accept the invitation** — Check your email or visit [github.com/notifications](https://github.com/notifications) and accept the repository invitation.
+3. **Clone the repo** — Once accepted, you can clone and use the agent (see Quick Start below).
+
+If you need access, contact the repo owner on Teams or email.
+
 ## Quick Start
 
 ### 1. Install GitHub Copilot CLI
@@ -48,7 +58,7 @@ npm install -g @github/copilot
 ### 2. Clone this repo and open a terminal in it
 
 ```bash
-git clone https://github.com/YourOrg/recognize-exclusion-windows-agent.git
+git clone https://github.com/InclusiveTechLab/recognize-exclusion-windows-agent.git
 cd recognize-exclusion-windows-agent
 ```
 
@@ -70,7 +80,23 @@ Once you're inside the CLI, type:
 
 Use the arrow keys to select **claude-opus-4.6** and press Enter. This is the recommended model for this agent. If Opus 4.6 isn't available to you, any Claude model will work.
 
-### 5. Start a conversation
+### 5. Select the agent
+
+Type `/agent` and select **recognize-exclusion** from the list. This loads the agent with its specialized instructions and tools.
+
+Alternatively, you can reference the agent directly in a prompt:
+
+```
+Use the recognize-exclusion agent to analyze the Windows 11 Snap Layouts feature
+```
+
+Or launch it from the command line:
+
+```bash
+copilot --agent=recognize-exclusion
+```
+
+### 6. Start a conversation
 
 Just type a message describing the Windows 11 feature you want to analyze. For example:
 
@@ -85,12 +111,18 @@ The agent will walk you through its 3-step workflow:
 
 ### How it works
 
-When you launch `copilot` inside this repo, it automatically reads the instruction files (`CLAUDE.md` and `.github/copilot-instructions.md`) and the reference data in `reference/`. You don't need to configure anything — the agent knows what to do.
+When you launch `copilot` inside this repo, it automatically reads the instruction files and reference data. There are two ways the agent loads:
+
+- **Via `/agent`** — Selects the custom agent profile in `.github/agents/recognize-exclusion.agent.md`, which specifies the model, tools, and behavior.
+- **Via direct chat** — The CLI reads `CLAUDE.md` and `.github/copilot-instructions.md` from the current directory, giving the same behavior without explicit agent selection.
+
+Both paths use the same reference data in `reference/`. You don't need to configure anything beyond cloning the repo.
 
 ### Tips
 
 - **Stay in the repo directory** — the CLI loads instructions from the current working directory.
-- **Use `/model`** at any time to switch models.
+- **Use `/agent`** to select the Recognize Exclusion agent explicitly.
+- **Use `/model`** at any time to switch models (Claude Opus 4.6 is recommended).
 - **Say "start over"** to reset and analyze a different feature.
 - **Use `/help`** to see all available commands.
 - **Use `/diff`** if the agent makes any file changes you want to review.
@@ -101,7 +133,9 @@ When you launch `copilot` inside this repo, it automatically reads the instructi
 ├── CLAUDE.md                           # Agent identity and core instructions
 ├── README.md                           # This file
 ├── .github/
-│   └── copilot-instructions.md         # Copilot CLI-specific configuration
+│   ├── copilot-instructions.md         # Copilot CLI-specific configuration
+│   └── agents/
+│       └── recognize-exclusion.agent.md # Custom agent profile (selectable via /agent)
 └── reference/
     ├── windows-exclusions.md           # 144 Windows 11 UI pattern exclusions
     └── icf-exclusions-windows.md       # 153 ICF functional classification exclusions
