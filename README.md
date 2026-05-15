@@ -22,15 +22,9 @@ Each exclusion follows a structured format:
 - An active [Copilot subscription](https://github.com/features/copilot/plans)
 - Access to Claude Opus 4.6 model (recommended)
 
-## Getting Access
+## Getting Started
 
-This is a private repository. To get access:
-
-1. **Request an invitation** — Ask the repo owner to add you as a collaborator.
-2. **Accept the invitation** — Check your email or visit [github.com/notifications](https://github.com/notifications) and accept the repository invitation.
-3. **Clone the repo** — Once accepted, you can clone and use the agent (see Quick Start below).
-
-If you need access, contact the repo owner on Teams or email.
+This is a public repository. Just clone it and go — see Quick Start below.
 
 ## Quick Start
 
